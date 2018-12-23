@@ -1,0 +1,7 @@
+<div *ngFor="let user of fakeUsers">
+  <a [routerLink]="['/home', user.id]">{{user.firstName}}</a> -
+  <a [routerLink]="['/home', user.id, user.firstName]">{{user.lastName}}</a>
+</div>
+<span>{{userId}}</span>
+
+<a [routerLink]="['/home', 123]">{{userId}}</a>

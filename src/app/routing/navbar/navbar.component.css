@@ -1,0 +1,9 @@
+li{
+    display: inline-block;
+    widows: fit-content;
+    margin-right: 10px;
+}
+
+ul {
+    flex-direction: row !important;
+}

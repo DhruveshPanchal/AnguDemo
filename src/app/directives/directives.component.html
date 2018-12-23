@@ -1,0 +1,84 @@
+----------------------- <b>ngIf directive</b> <br>
+<div *ngIf="courses.length > 0">
+  List of Courses
+</div>
+<div *ngIf="courses.length == 0">
+  No courses yet
+</div>
+----------------------- Another approach -----------------------
+<!-- <div *ngIf="courses.length > 0; else noCourses">
+  List of Courses
+</div>
+<ng-template #noCourses>
+  No courses yet
+</ng-template> -->
+----------------------- Another approach -----------------------
+<div *ngIf="courses.length > 0; then coursesList else noCourses"></div>
+<ng-template #coursesList>List of Courses</ng-template>
+<ng-template #noCourses>
+  No courses yet
+</ng-template>
+<br/>
+----------------------- Another approach -----------------------
+In ngIf element removed from html but in hidden element is not removed from html, its just hidden
+For large tree *ngIf is better than hidden property <br/>
+<div [hidden]="courses.length == 0">List of Courses</div>
+<hr/>
+----------------------- <b>ngSwitch directive</b> <br>
+<ul class="nav nav-pills">
+  <li [class.active]="viewMode == 'map'"><a (click)="viewMode = 'map'">Map View</a>&nbsp;</li>
+  <li [class.active]="viewMode == 'list'"><a (click)="viewMode = 'list'">List View</a></li>
+</ul>
+<div [ngSwitch]="viewMode">
+  <div *ngSwitchCase="'map'">Map View Content</div>
+  <div *ngSwitchCase="'list'">List View Content</div>
+  <div *ngSwitchDefault>Otherwise</div>
+</div>
+<hr>
+----------------------- <b>ngFor directive</b> <br>
+Track by used for not loading same content again and again when we click on Load Courses button<br>
+<button (click)="loadCourses()">Load Courses</button>
+<ul>
+  <li *ngFor="let course of courses; index as i; last as l; first as f; even as e; odd as o; trackBy:trackCourses">
+    {{i}} - {{course.name}}
+    <span *ngIf="e">(EVEN)</span>
+    <span *ngIf="o">(ODD)</span>
+    <button (click)="onChange(course)">Update</button>
+    <button (click)="onRemove(course)">Remove</button>
+  </li>
+</ul>
+<button (click)="onAdd()">Add</button>
+<hr>
+----------------------- <b>ngClass directive</b> <br>
+<span class="glyphicon" 
+  [class.glyphicon-star]="isFavorite" 
+  [class.glyphicon-star-empty]="!isFavorite" 
+  (click)="onClick()">
+  Favorite Icon
+</span>
+<br> ------------- Another approach using ngClass for apply class based on condition------------------ <br>
+<span class="glyphicon" 
+  [ngClass]= "{
+    'glyphicon-star' : isFavorite,
+    'glyphicon-star-empty' : !isFavorite
+  }"
+  (click)="onClick()">
+  Favorite Icon
+</span>
+<hr>
+
+----------------------- <b>ngStyle directive</b> <br>
+<button [ngStyle]="{
+  'backgroundColor' :canSave? 'blue':'gray',
+  'color': canSave? 'white' : 'black',
+  'fontWeight': canSave? 'bold': 'normal'
+}">Save 
+</button>
+
+<hr>----------------------- <b>Safe Traversal Operator</b> <br>
+<span>{{task.assignee?.name}}</span>
+ : Here if assignee is null then it will not through any error
+
+ <hr>----------------------- <b>Creating custom directives</b> <br>
+<input type="text" [appInputFormat]="uppercase">
+

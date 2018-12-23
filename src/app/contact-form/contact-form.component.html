@@ -1,0 +1,58 @@
+<!-- Form: Form Group, Input: Form Control <br> -->
+-> Keep track of the state of input fields & their validity 1:FormControl & 2:FormGroup
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  ngModelGroup used for group the controls & using that we can display validation msg for controls 
+  <div ngModelGroup="contact" #contact="ngModelGroup">
+    <div *ngIf="contact.touched && !contact.valid">
+      Here we display validation msg for control's related to contact group
+    </div>
+    <div class="form-group">
+        <!-- label+input[type='text'].form-control -->
+        <label for="firstName">First Name</label>
+        <input required minlength="3" maxlength="10" pattern="banana" ngModel name="firstName" #firstName="ngModel" id="firstName" 
+          type="text" class="form-control" (change)="logName(firstName)"/>
+        <div class="alert alert-danger" *ngIf="firstName.touched && !firstName.valid">
+          <div *ngIf="firstName.errors.required">
+            First Name is required.
+          </div>
+          <div *ngIf="firstName.errors.minlength">
+            First Name should be minimum {{ firstName.errors.minlength.requiredLength }} characters.
+          </div>
+          <div *ngIf="firstName.errors.pattern">
+            First name doesn't match the pattern.
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- div.form-group>label[for='comment']+textarea[id='comment'].form-control -->
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <textarea [(ngModel)]="comment" name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
+  </div>
+<!-- div.checkbox>label>input[type='checkbox'] -->
+<div class="checkbox">
+    <label>
+      <input type="checkbox" ngModel name="isSubscribed"> Subscribe to amiling list
+    </label>
+  </div>
+  <!-- div.form-group>label[for='contactMethod']+select[id='contactMethod'].form-control -->
+  <div class="form-group">
+    <label for="contactMethod">Contact Method</label>
+    <select ngModel name="contactMethod" id="contactMethod" class="form-control">
+      <option value="">--Select--</option>
+      <!-- <option *ngFor="let method of contactMethods" [value]="method.id">{{method.name}}</option> -->
+      <option *ngFor="let method of contactMethods" [ngValue]="method">{{method.name}}</option>
+    </select>
+    <!-- for multiple selection add Multiple attribute to select control -->
+  </div>
+  <!-- div.radion>label>input[type='radio'][name='contactMethod'] -->
+  <div *ngFor="let method of contactMethods" class="radion">
+    <label>
+      <input ngModel type="radio" name="contactMethod" [value]="method.id">{{method.name}}
+    </label>
+  </div>
+  <p>
+    {{f.value | json}}
+  </p>
+  <button class="btn bt-primary" [disabled]="!f.valid">Submit</button>
+</form>
